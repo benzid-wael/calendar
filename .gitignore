@@ -1,0 +1,6 @@
+# PHP
+composer.phar
+
+# Generated files
+*.pid
+vendor/
