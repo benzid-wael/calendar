@@ -1,8 +1,14 @@
 namespace Calendar\Entities;
 
 
-class EventType {
-    private ?\Calendar\Values\BookingConfiguration $config = null;
+use Calendar\Values\Availability;
+use Calendar\Values\BookingConfiguration;
+use Calendar\Day;
+use Calendar\Utils;
+
+
+class EventType extends Entity {
+    private ?BookingConfiguration $config = null;
 
     public function __construct(
         private string $name,
@@ -11,11 +17,14 @@ class EventType {
         private string $slug = '',
         private string $id = '',
     ) {
-        $this->slug = $slug ? $slug : \Calendar\Utils\slugify($name);
+        parent::__construct($id);
 
-        $avail = new \Calendar\Values\Availability(\Calendar\Day::FRIDAY, "2021-10-10", "2021-10-31");
+        $this->slug = $slug ? $slug : Utils\slugify($name);
+
+        // TODO remove this code as it's added mainly for testing purpose
+        $avail = new Availability(Day::FRIDAY, "2021-10-10", "2021-10-31");
         $avilabilities = Vector {$avail};
-        $this->config = new \Calendar\Values\BookingConfiguration("asia/uae", $avilabilities);
+        $this->config = new BookingConfiguration("asia/uae", $avilabilities);
     }
 
     public function __toString(): string {
